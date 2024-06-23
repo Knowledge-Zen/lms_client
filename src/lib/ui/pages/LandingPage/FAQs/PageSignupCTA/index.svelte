@@ -7,7 +7,7 @@
 </script>
 
 <div
-  class="floating grad relative mx-auto my-[5%] flex h-[61vh] w-[100%] flex-col items-center justify-center px-[6%] py-[8%] text-center shadow-2xl lg:h-[54vh] lg:w-[70%] lg:rounded-3xl"
+  class="floating grad relative mx-auto my-[5%] flex h-[61vh] w-[90%] flex-col items-center justify-center px-[6%] py-[8%] text-center shadow-2xl lg:h-[54vh] lg:w-[70%] lg:rounded-3xl"
 >
   <div>
     <h1
@@ -45,6 +45,6 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url('https://brand.cdn.clsrio.com/cta-bg.png');
+    background-image: url('https://brand.cdn.clsrio.com/cta-bg.png'); /*Todo: Change this URL.*/
   }
 </style>

@@ -11,6 +11,9 @@
     CloseLarge,
   } from 'carbon-icons-svelte';
 
+  import PrimaryButton from '$lib/ui/components/Button/PrimaryButton/index.svelte';
+  import { VARIANTS } from '../../Button/PrimaryButton/constants';
+
   let showsubNav = false;
   let showNav = false;
   let isSuperpowersActive = false;
@@ -34,8 +37,7 @@
     {
       key: 'flagshipcourses',
       title: 'Our Flagship Courses',
-      subtitle:
-        'Teach effectively with our tried and tested flagship courses.',
+      subtitle: 'Teach effectively with our tried and tested flagship courses.',
     },
     {
       key: 'personalizedservices',
@@ -135,13 +137,13 @@
     </ul>
   </nav>
 
-  <div class="w-[20%] justify-between items-center flex-row hidden md:hidden lg:flex">
-    <a
-      class="font-medium text-sm after:ml-2"
-      href="https://justed.in"
+  <div class="w-[20%] items-center flex-row hidden md:hidden lg:flex">
+    <a href="/login">
+      <PrimaryButton variant={VARIANTS.OUTLINED} className="m-2"
+        >Login</PrimaryButton
+      ></a
     >
-      Login & Signup buttons here
-    </a>
+    <a href="/signup"><PrimaryButton className="m-2">SignUp</PrimaryButton></a>
   </div>
 
   <button
@@ -234,12 +236,14 @@
         </ul>
       </nav>
       <div class="flex items-start flex-col gap-y-2 mt-5 border-t-[1px] pt-5">
-        <a
-          class="font-semibold after:content-['→'] rounded-md after:ml-2 w-full text-left py-4 px-4 hover:bg-gray-100 text-sm md:text-lg"
-          href="https://justed.in"
+        <a href="/login">
+          <PrimaryButton variant={VARIANTS.OUTLINED} className="m-2"
+            >Login</PrimaryButton
+          ></a
         >
-          Login and SignUp buttons here
-        </a>
+        <a href="/signup"
+          ><PrimaryButton className="m-2">SignUp</PrimaryButton></a
+        >
       </div>
     </div>
   {/if}
