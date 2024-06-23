@@ -39,7 +39,6 @@
   $: disableSubmit = getDisableSubmit(fields);
 
   async function handleSubmit() {
-    // console.log(supabase);
     const validationRes = authValidation(fields);
 
     if (Object.keys(validationRes).length) {
@@ -50,27 +49,37 @@
     try {
       loading = true;
 
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: fields.email,
         password: fields.password,
       });
 
-      if (error) throw error;
+      console.log('Data:', data);
+      console.log('Error:', error);
 
-      const { user: authUser } = session || {};
-      if (!authUser) {
-        throw new Error('Error creating user');
+      if (error) {
+        console.error('Sign-up error:', error);
+        throw error;
       }
 
-      if (!$currentOrg.id) return;
+      const { session } = data;
+      const { user: authUser } = session || {};
+      if (!authUser) {
+        throw new Error('Error creating user: authUser is null');
+      }
+
+      if (!$currentOrg.id) {
+        throw new Error('Current organization ID is missing');
+      }
 
       const [regexUsernameMatch] = [
         ...(authUser.email?.matchAll(/(.*)@/g) || []),
       ];
+
       const response = await fetch('https://api.ipregistry.co/?key=tryout');
+      if (!response.ok) {
+        throw new Error('Failed to fetch metadata');
+      }
       const metadata = await response.json();
 
       const profileRes = await supabase
@@ -85,6 +94,7 @@
         .select();
 
       if (profileRes.error) {
+        console.error('Profile creation error:', profileRes.error);
         throw profileRes.error;
       }
 
@@ -92,16 +102,18 @@
       profile.set(profileRes.data[0]);
 
       if (redirect) {
-        goto(redirect);
+        await goto(redirect);
       } else {
-        goto('/login');
+        await goto('/login');
       }
 
       formRef?.reset();
       success = true;
       fields = Object.assign({}, SIGNUP_FIELDS);
     } catch (error: any) {
+      console.error('Error during sign-up process:', error);
       submitError = error.error_description || error.message || String(error);
+    } finally {
       loading = false;
     }
   }
@@ -165,6 +177,5 @@
     />
   </div>
 </Auth>
-
 
 <!-- Todo: Redirection Logic not working. Need to fix that. -->
